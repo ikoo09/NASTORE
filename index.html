@@ -60,7 +60,25 @@
     font-weight: bold;
     border: 1px solid #8B0000;
 }
+/* Animasi terbang */
+.flying-item {
+    position: fixed;
+    z-index: 9999;
+    pointer-events: none; /* Supaya tidak bisa diklik saat terbang */
+    transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1); /* Gerakan melengkung halus */
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+}
 
+/* Efek getar pada tombol keranjang saat item masuk */
+@keyframes shakeCart {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.3); }
+    100% { transform: scale(1); }
+}
+.cart-shake {
+    animation: shakeCart 0.3s ease-in-out;
+}
 
         /* --- Hero Section --- */
         .hero { 
@@ -193,9 +211,45 @@ function filterProduct(brand, btn) {
 
 function addToCart(id) {
     const p = products.find(prod => prod.id === id);
-    cart.push({...p, selectedSize: ""});
-    updateCartUI();
+    
+    // --- LOGIKA ANIMASI TERBANG ---
+    const productImg = document.getElementById(`img-${id}`); // Ambil gambar asli
+    const cartIcon = document.querySelector('.nav-btn'); // Target tujuan (tombol keranjang)
+
+    if (productImg && cartIcon) {
+        // 1. Buat "bayangan" gambar baju
+        const imgClone = productImg.cloneNode();
+        const imgRect = productImg.getBoundingClientRect(); // Posisi awal baju
+        const cartRect = cartIcon.getBoundingClientRect(); // Posisi tujuan (keranjang)
+
+        // 2. Atur posisi awal bayangan baju
+        imgClone.classList.add('flying-item');
+        imgClone.style.width = imgRect.width + 'px';
+        imgClone.style.top = imgRect.top + 'px';
+        imgClone.style.left = imgRect.left + 'px';
+        document.body.appendChild(imgClone);
+
+        // 3. Jalankan animasi terbang ke keranjang (setelah delay tipis)
+        setTimeout(() => {
+            imgClone.style.width = '20px'; // Mengecil saat masuk keranjang
+            imgClone.style.top = cartRect.top + 'px';
+            imgClone.style.left = cartRect.left + 'px';
+            imgClone.style.opacity = '0.5';
+        }, 10);
+
+        // 4. Hapus bayangan baju setelah sampai & beri efek getar pada keranjang
+        setTimeout(() => {
+            imgClone.remove();
+            cartIcon.classList.add('cart-shake');
+            setTimeout(() => cartIcon.classList.remove('cart-shake'), 300);
+            
+            // Masukkan ke data & update UI setelah animasi selesai
+            cart.push({...p, selectedSize: ""});
+            updateCartUI();
+        }, 800);
+    }
 }
+
 
 function updateCartUI() {
     const list = document.getElementById('cart-list');
