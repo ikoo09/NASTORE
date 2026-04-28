@@ -28,8 +28,39 @@
         }
         .nav-links a:hover { color: #000; }
 
-        .nav-btn { background: none; border: none; color: white; cursor: pointer; font-size: 22px; position: relative; }
-        .badge { position: absolute; top: -5px; right: -8px; background: #fff; color: #000; font-size: 11px; padding: 2px 6px; border-radius: 50%; font-weight: bold; }
+        .nav-btn {
+    background: #8B0000; /* Warna merah agar terlihat */
+    border: 2px solid #fff;
+    color: white;
+    cursor: pointer;
+    font-size: 16px;
+    padding: 8px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+
+    /* BAGIAN PENGUNCI POSISI */
+    position: fixed;    /* Mengunci di layar */
+    top: 180px;         /* Posisi tinggi sesuai panah */
+    right: 25px;        /* Jarak dari kanan */
+    z-index: 5000;      /* Selalu di depan */
+}
+
+.badge {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    background: #fff;
+    color: #000;
+    font-size: 11px;
+    padding: 2px 6px;
+    border-radius: 50%;
+    font-weight: bold;
+    border: 1px solid #8B0000;
+}
+
 
         /* --- Hero Section --- */
         .hero { 
