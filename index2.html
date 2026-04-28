@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>N/A STORE - Checkout System</title>
+    <link rel="icon" type="image/x-icon" href="na.png">
+    <style>
+        /* --- CSS DASAR --- */
+        * { box-sizing: border-box; font-family: 'Arial', sans-serif; transition: 0.3s; }
+        body { 
+            background-image: linear-gradient(rgba(255,255,255,0.9), rgba(139, 0, 0, 0.1)), url('bg2.jpg'); 
+            background-size: cover; background-position: center; background-attachment: fixed; margin: 0; 
+        }
+        nav { 
+            background: #8B0000; padding: 10px 5%; display: flex; justify-content: space-between; 
+            align-items: center; position: sticky; top: 0; z-index: 1000; border-bottom: 1px solid #000; 
+            border-bottom-left-radius: 20px; border-bottom-right-radius: 20px; 
+        }
+        .logo-box img { height: 60px; width: auto; cursor: pointer; }
+        .nav-links a { color: white; text-decoration: none; font-weight: 900; font-style: italic; margin: 0 10px; font-size: 14px; }
+
+        .container { width: 90%; max-width: 800px; margin: 50px auto; }
+        .payment-card { 
+            background: #fff; padding: 40px; border: 5px solid #8B0000; position: relative; 
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2); overflow: hidden;
+        }
+
+        /* Watermark Buram */
+        .payment-card::after {
+            content: ""; background-image: url('na.png'); background-size: 300px; background-repeat: no-repeat;
+            background-position: center; opacity: 0.05; top: 0; left: 0; bottom: 0; right: 0;
+            position: absolute; z-index: 0; filter: grayscale(100%); pointer-events: none;
+        }
+        .payment-card > * { position: relative; z-index: 1; }
+
+        h2 { text-align: center; font-style: italic; font-weight: 900; color: #8B0000; border-bottom: 3px solid #8B0000; padding-bottom: 10px; margin-top: 30px; text-transform: uppercase; }
+        input, select { width: 100%; padding: 15px; margin-bottom: 15px; border: 2px solid #eee; background: #f9f9f9; font-weight: bold; outline: none; }
+
+        /* --- STYLE DETAIL BARANG --- */
+        .order-summary { background: rgba(253, 253, 253, 0.7); border: 1px solid #eee; padding: 15px; margin-bottom: 20px; border-radius: 8px; }
+        .item-row { 
+            display: flex; align-items: center; gap: 15px; border-bottom: 1px solid #eee; 
+            padding: 15px 0; position: relative; 
+        }
+        .item-row:last-child { border-bottom: none; }
+        .item-row img { width: 70px; height: 70px; object-fit: cover; border-radius: 5px; border: 1px solid #ddd; }
+        .item-info { flex: 1; }
+        .item-info p { margin: 2px 0; font-size: 14px; font-weight: bold; }
+        
+        .remove-item {
+            position: absolute; top: 10px; right: 10px; color: #ff0000; 
+            cursor: pointer; font-size: 20px; font-weight: 900; line-height: 1; z-index: 10;
+        }
+        .remove-item:hover { transform: scale(1.3); color: #8B0000; }
+
+        .method-box { display: none; align-items: center; gap: 20px; margin: 20px 0; padding: 15px; border: 2px dashed #8B0000; border-radius: 10px; }
+        .method-box img { width: 80px; }
+        .bca-number { font-size: 28px; font-weight: 900; letter-spacing: 2px; color: #000; }
+
+        .qris-display { display: none; text-align: center; margin: 20px 0; padding: 20px; background: #fdfdfd; border: 2px dashed #8B0000; border-radius: 10px; }
+        .qris-img { width: 220px; border: 3px solid #000; margin-top: 10px; }
+
+        .wa-btn { width: 100%; background: #25d366; color: white; border: none; padding: 20px; font-weight: 900; cursor: pointer; border-radius: 4px; font-size: 18px; text-transform: uppercase; margin-top: 20px; }
+        .wa-btn:hover { background: #128c7e; }
+    </style>
+</head>
+<body>
+
+<nav>
+    <div class="logo-box" onclick="window.location.href='index.html'"><img src="na.png" alt="Logo"></div>
+    <div class="nav-links">
+        <a href="index.html">BERANDA</a>
+        <a href="index2.html" style="border-bottom: 2px solid white;">CHECKOUT</a>
+    </div>
+</nav>
+
+<div class="container">
+    <div class="payment-card">
+        
+        <h2>RINGKASAN PESANAN</h2>
+        <div id="order-details" class="order-summary"></div>
+        <h3 id="total-price-checkout" style="text-align: right; color: #8B0000; font-weight: 900; font-style: italic;">TOTAL: Rp 0</h3>
+
+        <h2>DATA PENGIRIMAN</h2>
+        <input type="text" id="cust-name" placeholder="NAMA LENGKAP PENERIMA">
+        <input type="text" id="cust-address" placeholder="ALAMAT LENGKAP (KOTA, KECAMATAN, NO RUMAH)">
+        
+        <h2>METODE PEMBAYARAN</h2>
+        <select id="pay-method" onchange="showBankInfo()">
+            <option value="">-- PILIH METODE TRANSFER --</option>
+            <option value="BCA">BANK BCA</option>
+            <option value="DANA">DANA (SCAN QRIS)</option>
+        </select>
+
+        <div id="info-bca" class="method-box">
+            <img src="bca.png" alt="BCA">
+            <div class="method-info"><h3>BANK BCA</h3><p class="bca-number">1234567890</p><small>NICO DAMARA</small></div>
+        </div>
+
+        <div id="info-dana" class="qris-display">
+            <img src="dana.png" alt="Logo DANA" style="width: 120px; background: none;">
+            <h3 style="font-style: italic; font-weight: 900; color: #8B0000; margin-top: 10px;">SCAN QRIS DANA N/A STORE</h3>
+            <img src="qris.jpg" alt="QRIS DANA" class="qris-img">
+        </div>
+
+        <button class="wa-btn" onclick="sendWA()">PESAN SEKARANG VIA WHATSAPP</button>
+    </div>
+</div>
+
+<script>
+    // Ambil data awal dari LocalStorage
+    let cartData = JSON.parse(localStorage.getItem('cartData')) || [];
+
+    // 1. Fungsi Menampilkan Daftar Pesanan
+    function renderOrder() {
+        const orderDiv = document.getElementById('order-details');
+        const totalText = document.getElementById('total-price-checkout');
+        let total = 0;
+
+        if (cartData.length === 0) {
+            orderDiv.innerHTML = "<p style='text-align:center; font-weight:bold;'>Pesanan kosong.</p>";
+            totalText.innerText = "TOTAL: Rp 0";
+            return;
+        }
+
+        orderDiv.innerHTML = cartData.map((item, index) => {
+            total += item.price;
+            // Gunakan item.images[0] atau item.image sesuai struktur data produk Anda
+            const imgPath = (item.images && item.images[0]) ? item.images[0] : 'na.png';
+            
+            return `
+                <div class="item-row">
+                    <div class="remove-item" onclick="removeItemCheckout(${index})">✕</div>
+                    <img src="${imgPath}" alt="produk">
+                    <div class="item-info">
+                        <p>${item.name}</p>
+                        <p style="color: #8B0000; font-style: italic;">Size: ${item.selectedSize}</p>
+                        <p>Rp ${item.price.toLocaleString('id-ID')}</p>
+                    </div>
+                </div>
+            `;
+        }).join('');
+
+        totalText.innerText = `TOTAL: Rp ${total.toLocaleString('id-ID')}`;
+    }
+
+    // 2. Fungsi Hapus Barang
+    function removeItemCheckout(index) {
+        if(confirm("Batalkan item ini dari pesanan?")) {
+            cartData.splice(index, 1);
+            localStorage.setItem('cartData', JSON.stringify(cartData));
+            renderOrder();
+        }
+    }
+
+    // 3. Tampilkan Info Bank/QRIS
+    function showBankInfo() {
+        const selected = document.getElementById('pay-method').value;
+        document.getElementById('info-bca').style.display = (selected === 'BCA') ? 'flex' : 'none';
+        document.getElementById('info-dana').style.display = (selected === 'DANA') ? 'block' : 'none';
+    }
+
+    // 4. FUNGSI KIRIM WHATSAPP (VERSI FIX)
+    function sendWA() {
+        const name = document.getElementById('cust-name').value;
+        const addr = document.getElementById('cust-address').value;
+        const pay = document.getElementById('pay-method').value;
+
+        // Ambil data terbaru
+        const currentCart = JSON.parse(localStorage.getItem('cartData')) || [];
+
+        if (currentCart.length === 0) return alert("Pesanan Anda masih kosong!");
+        if (!name || !addr || !pay) return alert("Mohon lengkapi Nama, Alamat, dan Metode Pembayaran!");
+
+        // Susun daftar item
+        let itemsText = currentCart.map((i, idx) => {
+            return `${idx + 1}. ${i.name} [Size: ${i.selectedSize}] - Rp ${i.price.toLocaleString('id-ID')}`;
+        }).join('\n');
+
+        const total = currentCart.reduce((s, i) => s + i.price, 0);
+
+        // Format pesan teks
+        const rawText = `*PESANAN BARU - N/A STORE*\n\n` +
+                        `*Nama:* ${name}\n` +
+                        `*Alamat:* ${addr}\n` +
+                        `*Metode:* ${pay}\n\n` +
+                        `*Daftar Barang:*\n${itemsText}\n\n` +
+                        `*TOTAL PEMBAYARAN: Rp ${total.toLocaleString('id-ID')}*\n\n` +
+                        `_Silakan kirim bukti transfer setelah ini._`;
+
+        // Encode pesan agar masuk ke URL
+        const encodedText = encodeURIComponent(rawText);
+        const phoneNumber = "6287870574909";
+
+        // Buka WhatsApp
+        window.open(`https://wa.me/6287870574909?text=${encodedText}`, '_blank');
+    }
+
+    // Jalankan render saat halaman dimuat
+    window.onload = renderOrder;
+</script>
+
+</body>
+</html>

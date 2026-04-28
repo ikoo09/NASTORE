@@ -13,115 +13,100 @@
             background-size: cover; background-position: center; background-attachment: fixed; margin: 0; 
         }
 
-        /* --- Navbar (Melengkung Bawah) --- */
+        /* --- Navbar Rapih (Menghilangkan tulisan bertumpuk) --- */
         nav { 
-            background: #8B0000; padding: 10px 5%; display: flex; justify-content: space-between; align-items: center; 
-            position: sticky; top: 0; z-index: 1000; border-bottom: 1px solid #000; 
+            background: #8B0000; padding: 10px 5%; display: flex; justify-content: space-between; 
+            align-items: center; position: sticky; top: 0; z-index: 1000; border-bottom: 2px solid #000; 
             border-bottom-left-radius: 20px; border-bottom-right-radius: 20px; 
         }
-        .logo-box img { height: 60px; width: auto; cursor: pointer; }
+        .logo-box img { height: 50px; width: auto; cursor: pointer; }
+        
+        .nav-links { display: flex; gap: 25px; align-items: center; }
+        .nav-links a { 
+            color: white; text-decoration: none; font-weight: 900; font-style: italic; 
+            font-size: 14px; text-transform: uppercase; letter-spacing: 1px;
+        }
+        .nav-links a:hover { color: #000; }
+
         .nav-btn { background: none; border: none; color: white; cursor: pointer; font-size: 22px; position: relative; }
         .badge { position: absolute; top: -5px; right: -8px; background: #fff; color: #000; font-size: 11px; padding: 2px 6px; border-radius: 50%; font-weight: bold; }
 
         /* --- Hero Section --- */
         .hero { 
             background-image: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('bg.jpg'); 
-            background-size: cover; background-position: center; height: 380px; 
-            display: flex; flex-direction: column; justify-content: center; align-items: center; color: white; text-align: center; border-bottom: 5px solid #9bb2bf8d; 
+            background-size: cover; background-position: center; height: 400px; display: flex; 
+            flex-direction: column; justify-content: center; align-items: center; color: white; 
+            text-align: center; border-bottom: 5px solid #9bb2bf8d; 
         }
-        .hero h1 { font-size: 55px; margin: 0; text-transform: uppercase; font-style: italic; font-weight: 900; }
-        .brand-logos img { height: 40px; margin: 10px; border-radius: 5px; opacity: 0.8; }
+        .hero h1 { font-size: 60px; margin: 10px 0; text-transform: uppercase; font-style: italic; font-weight: 900; letter-spacing: 3px; }
+        .brand-logos { display: flex; gap: 15px; margin-top: 15px; }
+        .brand-logos img { height: 35px; border-radius: 5px; opacity: 0.9; }
 
-        /* --- Menu Kategori (Melengkung Bawah) --- */
+        /* --- Menu Kategori --- */
         .category-menu { display: flex; justify-content: center; gap: 10px; margin: 30px 0; flex-wrap: wrap; }
-        .cat-btn { 
-            background: #000; color: white; border: none; padding: 12px 35px; font-weight: 900; font-style: italic; 
-            cursor: pointer; text-transform: uppercase; border-bottom-left-radius: 20px; border-bottom-right-radius: 20px; 
-        }
-        .cat-btn.active, .cat-btn:hover { background: #8B0000; border: 1px solid #000; box-shadow: 0 5px 15px rgba(139, 0, 0, 0.4); }
+        .cat-btn { background: #000; color: white; border: none; padding: 12px 30px; font-weight: 900; font-style: italic; cursor: pointer; text-transform: uppercase; border-radius: 8px; }
+        .cat-btn.active, .cat-btn:hover { background: #8B0000; box-shadow: 0 5px 15px rgba(139, 0, 0, 0.4); }
 
-        /* --- Grid Produk & Card --- */
-        .container { width: 90%; margin: 0 auto 50px; }
-        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 30px; }
-        .card { background: #fff; padding: 45px 15px 15px; text-align: center; position: relative; border: 5px solid #8B0000; margin-bottom: 20px;transition: 0.3s;/* MODIFIKASI AGAR SEJAJAR */
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between; /* Mendorong isi ke atas dan tombol ke bawah */
-    min-height: 500px; /* Atur tinggi minimal agar semua kotak seragam tingginya */
- }
- 
-        
-        /* LABEL MERAH OTOMATIS GANTI NAMA BRAND */
+        /* --- Grid Produk --- */
+        .container { width: 95%; margin: 0 auto 50px; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 25px; }
+        .card { 
+            background: #fff; padding: 45px 15px 15px; text-align: center; position: relative; 
+            border: 4px solid #8B0000; display: flex; flex-direction: column; 
+            justify-content: space-between; min-height: 520px; 
+        }
         .card::before { 
-            content: attr(data-brand); 
-            position: absolute; top: -15px; left: 50%; transform: translateX(-50%); 
-            background: #8B0000; color: white; padding: 3px 20px; font-size: 11px; font-weight: 900; font-style: italic; 
-            clip-path: polygon(10% 0%, 90% 0%, 100% 100%, 0% 100%); white-space: nowrap;
+            content: attr(data-brand); position: absolute; top: -15px; left: 50%; transform: translateX(-50%); 
+            background: #8B0000; color: white; padding: 3px 20px; font-size: 11px; font-weight: 900; 
+            font-style: italic; clip-path: polygon(10% 0%, 90% 0%, 100% 100%, 0% 100%); white-space: nowrap; 
         }
-/* Tambahkan kode ini agar harga tebal dan mencolok */
-.card p {
-    font-size: 20px;    /* Ukuran lebih besar dari nama produk */
-    font-weight: 900;
-    font-style: italic;      /* <--- INI BIAR TULISANNYA MIRING */   /* Sangat tebal */
-    color: #8B0000;        /* Hitam pekat */
-    margin: 10px auto;     /* Jarak atas bawah */
-    letter-spacing: 1px;
-    display: inline-block;   /* Agar garis hanya sepanjang tulisan saja */
-     /* TAMBAHAN GARIS BAWAH */
-    border-bottom: 3px solid #8B0000; /* Garis tebal warna merah gelap */
-    padding-bottom: 2px;              /* Jarak antara angka dan garis */
-}
+        .main-product-img { width: 100%; height: auto; border-radius: 5px; cursor: pointer; }
+        .price-tag { font-size: 22px; font-weight: 900; font-style: italic; color: #8B0000; border-bottom: 3px solid #8B0000; display: inline-block; margin: 15px 0; }
+        .add-btn { width: 100%; background: #000; color: white; border: none; padding: 15px; cursor: pointer; font-weight: 900; text-transform: uppercase; font-style: italic; }
 
-        .main-product-img { width: 100%; height: auto; object-fit: cover; border-radius: 5px; cursor: pointer; margin-bottom: 10px; }
-
-        /* Galeri Foto Kecil */
-        .thumbnail-container { display: flex; justify-content: center; gap: 5px; margin-bottom: 15px; flex-wrap: wrap; }
-        .thumb-img { width: 45px; height: 45px; object-fit: cover; border: 1px solid #ccc; cursor: pointer; border-radius: 4px; }
-        .thumb-img:hover { border-color: #8B0000; }
-
-        .add-btn { width: 100%; background: #000; color: white; border: none; padding: 14px; cursor: pointer; font-weight: 900; text-transform: uppercase; font-style: italic; }
-        .add-btn:hover { background: #8B0000; }
-
-        /* --- Panel Keranjang (Sisi Kanan) --- */
-        #cart-panel { 
-            position: fixed; top: 0; right: -400px; width: 360px; height: 100%; 
-            background: #000; color: #fff; z-index: 2000; padding: 30px; 
-            display: flex; flex-direction: column; transition: 0.4s; 
-        }
+        /* --- Panel Keranjang --- */
+        #cart-panel { position: fixed; top: 0; right: -400px; width: 360px; height: 100%; background: #000; color: #fff; z-index: 2000; padding: 30px; display: flex; flex-direction: column; transition: 0.4s; }
         #cart-panel.active { right: 0 !important; }
         .close-btn { cursor: pointer; font-size: 30px; position: absolute; top: 20px; right: 25px; color: #8B0000; }
-        
         .cart-item { border-bottom: 1px solid #222; padding: 15px 0; display: flex; gap: 10px; align-items: center; }
         .cart-item img { width: 50px; height: 50px; object-fit: cover; border-radius: 4px; }
-        
-        .checkout-box { margin-top: auto; border-top: 2px solid #222; padding-top: 20px; }
-        .checkout-box input, .checkout-box select { width: 100%; padding: 12px; margin-bottom: 10px; background: #111; border: 1px solid #333; color: white; }
-        .wa-btn { width: 100%; background: #25d366; color: white; border: none; padding: 16px; font-weight: 900; cursor: pointer; border-radius: 4px; }
-
-        #notification { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%) translateY(150px); background: #8B0000; color: white; padding: 15px 30px; border-radius: 4px; font-weight: 900; z-index: 3000; transition: 0.4s; }
-        #notification.show { transform: translateX(-50%) translateY(0); }
     </style>
 </head>
 <body>
 
-    <nav>
-        <div class="logo-box" onclick="location.reload()"><img src="na.png" alt="Logo"></div>
-        <div class="nav-tools">
-            <div class="nav-center-img">
-            <button class="nav-btn" onclick="toggleCart()">🛒 <span class="badge" id="cart-count">0</span></button>
-        </div>
-    </nav>
-
-    <div class="hero">
-        <p>authentic local brand</p>
-        <h1>ALL STYLE</h1>
-        <img src="na.png" alt="Logo" style="width: 80px; margin-top: 10px;">
-        <div class="brand-logos">
-            <img src="devotus.jpg"> <img src="hs.webp"> <img src="cc.jpg"> <img src="nocturnal.webp">
-        </div>
+<nav>
+    <div class="logo-box" onclick="location.reload()" style="display: flex; align-items: center; gap: 10px;">
+        <!-- Logo N/A (Lama) -->
+        <img src="na.png" alt="Logo" style="height: 50px;"> 
+        
+        <!-- LOGO BARU (Ditambahkan di sini) -->
+        <img src="store.png" alt="Logo Baru" style="height: 40px; width: auto;">
+    </div>
+    
+    <!-- Menu Tengah (Hanya Link Bersih) -->
+    <div class="nav-links">
+        <a href="index.html">BERANDA</a>
+        <a href="index2.html">CHECKOUT</a>
     </div>
 
-   <div class="category-menu">
+    <button class="nav-btn" onclick="toggleCart()">🛒 <span class="badge" id="cart-count">0</span></button>
+</nav>
+
+<div class="hero">
+    <p style="font-weight: bold; letter-spacing: 2px;">authentic local brand VIETNAM</p>
+    <h1>ALL STYLE</h1>
+    <img src="na.png" alt="Logo" style="width: 70px;">
+    
+    <!-- Logo Brand Kecil -->
+    <div class="brand-logos">
+        <img src="devotus.jpg">
+        <img src="hs.webp">
+        <img src="cc.jpg">
+        <img src="nocturnal.webp">
+    </div>
+</div>
+
+<div class="category-menu">
     <button onclick="filterProduct('all', this)" class="cat-btn active">SEMUA</button>
     <button onclick="filterProduct('devotus', this)" class="cat-btn">DEVOTUS</button>
     <button onclick="filterProduct('hades', this)" class="cat-btn">HADES</button>
@@ -129,137 +114,90 @@
     <button onclick="filterProduct('nocturnal', this)" class="cat-btn">NOCTURNAL</button>
 </div>
 
+<div class="container">
+    <div class="grid" id="product-grid"></div>
+</div>
 
-    <div class="container">
-        <div class="grid" id="product-grid"></div>
+<!-- Panel Keranjang -->
+<div id="cart-panel">
+    <span class="close-btn" onclick="toggleCart()">&times;</span>
+    <h2 style="font-style: italic; font-weight: 900; border-bottom: 2px solid #8B0000; padding-bottom: 10px;">KERANJANG</h2>
+    <div id="cart-list" style="flex: 1; overflow-y: auto;"></div>
+    <div style="margin-top: 20px; border-top: 1px solid #222; padding-top: 15px;">
+        <h3 id="total-price" style="font-weight: 900;">TOTAL: Rp 0</h3>
+        <button onclick="goToCheckout()" style="width:100%; background:#8B0000; color:white; padding:15px; border:none; cursor:pointer; font-weight:900;">CHECK OUT</button>
     </div>
-
-    <!-- Panel Keranjang -->
-    <div id="cart-panel">
-        <span class="close-btn" onclick="toggleCart()">&times;</span>
-        <h2 style="font-style: italic; font-weight: 900; border-bottom: 2px solid #8B0000; padding-bottom: 10px;">KERANJANG</h2>
-        <div id="cart-list" style="flex: 1; overflow-y: auto; margin-bottom: 20px;"></div>
-        <div class="checkout-box">
-            <h3 id="total-price" style="color: #fff; font-weight: 900;">TOTAL: Rp 0</h3>
-            <input type="text" id="cust-name" placeholder="NAMA PENERIMA">
-            <input type="text" id="cust-address" placeholder="ALAMAT LENGKAP">
-            <select id="pay-method">
-                <option value="">PEMBAYARAN</option>
-                <option value="DANA">DANA (087878574909)</option>
-                <option value="BCA">BANK BCA (123456789)</option>
-            </select>
-            <button class="wa-btn" onclick="sendWA()">PESAN VIA WHATSAPP</button>
-        </div>
-    </div>
-
-    <div id="notification">DITAMBAHKAN KE KERANJANG</div>
+</div>
 
 <script>
-    // --- 1. DATA PRODUK (Ganti 'brand' untuk mengubah label merah miring) ---
-    const products = [
-        { id: 1, name: 'Polo Overthinking', brand: 'CITY CYCLE', price: 370000, category: 'baju', sizes: ['M','L','XL'], images: ['city1.webp', 'city1.webp', 'cityukuran.jpg'] },
-        { id: 2, name: 'HADES RAIDER KHAKI CAMO SHORTS', brand: 'HADES', price: 800000, category: 'hoodie', sizes: ['S','M','L'], images: ['hadesraiderkhaki.jpg', 'hadesraiderkhaki2.jpg', 'hadesraiderkhaki3.jpg'] },
-        { id: 3, name: 'CARGO SHORT JEANS(Unisex)', brand: 'DEVOTUS', price: 430000, category: 'baju', sizes: ['M','L','XL'], images: ['pendek.webp', 'decotus2.webp','devotus1.webp'] },
-        { id: 4, name: 'Hoodie Zip Form Boxy NOCTURNAL Culture Zipper Boxy Hoodie(Unisex)', brand: 'NOCTURNAL', price: 348000, category: 'hoodie', sizes: ['M','L','XL'], images: ['nocturnal1.webp','nocturnal2.webp','sizehoodienocturnal.jpg'] }
-    ];
+const products = [
+    { id: 1, name: 'Polo Overthinking', brand: 'CITY CYCLE', price: 370000, sizes: ['M','L','XL'], images: ['city1.webp', 'cityukuran.jpg'] },
+    { id: 2, name: 'RAIDER KHAKI SHORTS', brand: 'HADES', price: 800000, sizes: ['S','M','L'], images: ['hadesraiderkhaki.jpg', 'hadesraiderkhaki2.jpg'] },
+    { id: 3, name: 'CARGO SHORT JEANS', brand: 'DEVOTUS', price: 430000, sizes: ['M','L','XL'], images: ['devcelana.png', 'devcelana2.jpg','devcelana3.jpg','devcelana4.jpg'] },
+    { id: 4, name: 'Culture Zipper Hoodie', brand: 'NOCTURNAL', price: 348000, sizes: ['M','L','XL'], images: ['nocturnal1.webp', 'sizehoodienocturnal.jpg'] }
+];
 
-    let cart = [];
+let cart = [];
 
-    function filterProduct(brandName, btn) {
+function filterProduct(brand, btn) {
     const grid = document.getElementById('product-grid');
-    grid.innerHTML = ""; // Bersihkan layar agar tidak menumpuk
-
-    // Atur tombol aktif
+    grid.innerHTML = "";
     document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
-    if(btn) btn.classList.add('active');
-
-    // LOGIKA FILTER BERDASARKAN BRAND
-    const filtered = brandName === 'all' 
-        ? products 
-        : products.filter(p => p.brand.toLowerCase() === brandName.toLowerCase());
-
+    btn.classList.add('active');
+    
+    const filtered = brand === 'all' ? products : products.filter(p => p.brand.toLowerCase() === brand.toLowerCase());
     filtered.forEach(p => {
         grid.innerHTML += `
-            <div class="card" data-brand="${p.brand}">
-                <img id="img-${p.id}" src="${p.images[0]}" class="main-product-img">
-                <div class="thumbnail-row" style="display:flex; justify-content:center; gap:5px; margin:10px 0;">
-                    ${p.images.map(img => `<img src="${img}" style="width:40px; height:40px; cursor:pointer; border:1px solid #ccc; border-radius:4px;" onclick="document.getElementById('img-${p.id}').src='${img}'">`).join('')}
-                </div>
-                <h3>${p.name}</h3>
-                <p style="font-size: 22px; font-weight: 900; font-style: italic; color: #8B0000; display: inline-block; border-bottom: 3px solid #8B0000; padding-bottom: 2px;">
-                    Rp ${p.price.toLocaleString('id-ID')}
-                </p>
-                <button class="add-btn" onclick="addToCart(${p.id})">+ Keranjang</button>
-            </div>`;
+        <div class="card" data-brand="${p.brand}">
+            <img id="img-${p.id}" src="${p.images[0]}" class="main-product-img">
+            <div style="display:flex; justify-content:center; gap:5px; margin:10px 0;">
+                ${p.images.map(img => `<img src="${img}" style="width:40px; height:40px; cursor:pointer; border:1px solid #ccc; border-radius:4px;" onclick="document.getElementById('img-${p.id}').src='${img}'">`).join('')}
+            </div>
+            <h3>${p.name}</h3>
+            <div class="price-tag">Rp ${p.price.toLocaleString('id-ID')}</div>
+            <button class="add-btn" onclick="addToCart(${p.id})">+ Keranjang</button>
+        </div>`;
     });
 }
 
+function addToCart(id) {
+    const p = products.find(prod => prod.id === id);
+    cart.push({...p, selectedSize: ""});
+    updateCartUI();
+}
 
-    function changeImage(id, src) {
-        const img = document.getElementById(id);
-        img.style.opacity = '0.4';
-        setTimeout(() => { img.src = src; img.style.opacity = '1'; }, 150);
-    }
+function updateCartUI() {
+    const list = document.getElementById('cart-list');
+    let total = 0;
+    list.innerHTML = cart.map((item, idx) => {
+        total += item.price;
+        return `
+        <div class="cart-item">
+            <img src="${item.images[0]}">
+            <div style="flex:1">
+                <div style="font-size:12px; font-weight:bold">${item.name}</div>
+                <select onchange="cart[${idx}].selectedSize=this.value" style="background:#111; color:white; font-size:10px; margin-top:5px;">
+                    <option value="">SIZE</option>
+                    ${item.sizes.map(s => `<option value="${s}">${s}</option>`).join('')}
+                </select>
+            </div>
+            <div style="cursor:pointer" onclick="cart.splice(${idx},1); updateCartUI()">✕</div>
+        </div>`;
+    }).join('');
+    document.getElementById('cart-count').innerText = cart.length;
+    document.getElementById('total-price').innerText = `TOTAL: Rp ${total.toLocaleString('id-ID')}`;
+}
 
-    function toggleCart() { document.getElementById('cart-panel').classList.toggle('active'); }
+function toggleCart() { document.getElementById('cart-panel').classList.toggle('active'); }
 
-    // --- 3. LOGIKA KERANJANG ---
-    function addToCart(id) {
-        const p = products.find(prod => prod.id === id);
-        // Masukkan objek baru agar size tidak bentrok antar item yang sama
-        cart.push({...p, selectedSize: ""});
-        updateCartUI();
-        const n = document.getElementById('notification');
-        n.classList.add('show');
-        setTimeout(() => n.classList.remove('show'), 2000);
-    }
+function goToCheckout() {
+    if(cart.length === 0) return alert("Keranjang kosong!");
+    if(cart.some(i => !i.selectedSize)) return alert("Pilih SIZE dulu!");
+    localStorage.setItem('cartData', JSON.stringify(cart));
+    window.location.href = "index2.html";
+}
 
-    function updateCartUI() {
-        const list = document.getElementById('cart-list');
-        const count = document.getElementById('cart-count');
-        const totalDisp = document.getElementById('total-price');
-        list.innerHTML = ""; let total = 0;
-        
-        cart.forEach((item, index) => {
-            total += item.price;
-            list.innerHTML += `
-                <div class="cart-item">
-                    <img src="${item.images[0]}">
-                    <div style="flex: 1;">
-                        <div style="font-size: 12px; font-weight: bold;">${item.name}</div>
-                        <div>Rp ${item.price.toLocaleString('id-ID')}</div>
-                        <select onchange="cart[${index}].selectedSize = this.value" style="background:#111; color:white; border:1px solid #333; margin-top:5px; font-size:10px;">
-                            <option value="">SIZE</option>
-                            ${item.sizes.map(s => `<option value="${s}">SIZE: ${s}</option>`).join('')}
-                        </select>
-                    </div>
-                    <button onclick="removeItem(${index})" style="background:none; border:none; color:red; cursor:pointer; font-size: 18px;">✕</button>
-                </div>`;
-        });
-        count.innerText = cart.length;
-        totalDisp.innerText = `TOTAL: Rp ${total.toLocaleString('id-ID')}`;
-    }
-
-    function removeItem(idx) { cart.splice(idx, 1); updateCartUI(); }
-
-    // --- 4. KIRIM WA ---
-    function sendWA() {
-        const name = document.getElementById('cust-name').value;
-        const addr = document.getElementById('cust-address').value;
-        const pay = document.getElementById('pay-method').value;
-        
-        if(!name || !addr || !pay || cart.length === 0) return alert("Lengkapi data dan keranjang!");
-        if(cart.some(i => !i.selectedSize)) return alert("Mohon pilih SIZE untuk semua item!");
-
-        let itemsText = cart.map((i, idx) => `${idx+1}. ${i.name} [Size: ${i.selectedSize}]`).join('%0A');
-        const total = cart.reduce((s, i) => s + i.price, 0);
-        const noWA = "6287878574909";
-        const text = `*PESANAN BARU*%0A%0A*Nama:* ${name}%0A*Alamat:* ${addr}%0A*Metode:* ${pay}%0A%0A*Item:*%0A${itemsText}%0A%0A*TOTAL: Rp ${total.toLocaleString('id-ID')}*`;
-        
-        window.open(`https://wa.me/6287870574909?text=${text}`, '_blank');
-    }
-
-    window.onload = function() { filterProduct('all'); };
+window.onload = () => filterProduct('all', document.querySelector('.cat-btn'));
 </script>
 </body>
 </html>
