@@ -85,6 +85,60 @@
         .running-text-container { position: fixed; bottom: 0; left: 0; width: 100%; background: #000; color: #fff; padding: 12px 0; z-index: 2000; font-weight: bold; font-size: 14px; overflow: hidden; }
         .marquee { display: inline-block; white-space: nowrap; padding-left: 100%; animation: marquee 25s linear infinite; }
         @keyframes marquee { 0% { transform: translate(0, 0); } 100% { transform: translate(-100%, 0); } }
+        /* --- TAMPILAN KHUSUS HP (RESPONSIVE) --- */
+@media screen and (max-width: 768px) {
+    /* 1. Mengubah Grid Produk menjadi 2 kolom di HP */
+    .grid {
+        grid-template-columns: repeat(2, 1fr) !important;
+        gap: 15px !important;
+        padding: 10px;
+    }
+
+    /* 2. Menyesuaikan Hero Section agar teks tidak terlalu besar */
+    .hero h1 {
+        font-size: 40px !important;
+    }
+
+    /* 3. Mengatur Modal/Quick View agar menumpuk ke bawah */
+    .modal-content {
+        flex-direction: column !important;
+        overflow-y: auto;
+    }
+
+    .modal-left, .modal-right {
+        flex: none !important;
+        width: 100% !important;
+    }
+
+    .modal-right {
+        padding: 20px !important;
+    }
+
+    /* 4. Menyesuaikan Ukuran Gambar di HP */
+    .img-container {
+        min-height: 200px !important;
+    }
+
+    .main-product-img {
+        max-height: 200px !important;
+    }
+
+    /* 5. Mengatur Navigasi agar lebih ringkas */
+    nav {
+        padding: 10px 3% !important;
+    }
+
+    .nav-links a {
+        font-size: 10px !important;
+        margin-left: 10px !important;
+    }
+
+    /* 6. Panel Keranjang agar tidak terlalu lebar */
+    #cart-panel {
+        width: 100% !important;
+        right: -100%;
+    }
+}
     </style>
 </head>
 <body>
