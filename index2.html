@@ -110,19 +110,50 @@
         .pay-box { border: 1px solid #ddd; padding: 20px; display: none; background: #fff; margin-top: 10px; text-align: center; }
         .pay-box img { max-width: 150px; margin-bottom: 10px; }
         
-        .wa-btn { 
-            width: 100%; 
-            background: #000; 
-            color: white; 
-            border: none; 
-            padding: 20px; 
-            font-weight: bold; 
-            cursor: pointer; 
-            margin-top: 30px; 
-            font-size: 16px; 
-            text-transform: uppercase; 
-            letter-spacing: 1px;
-        }
+        /* Tombol WA Warna Hijau */
+.wa-btn {
+    width: 100%;
+    background: #25D366; /* Warna Hijau WA */
+    color: white;
+    border: none;
+    padding: 20px;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 30px;
+    font-size: 16px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    transition: 0.3s;
+}
+
+.wa-btn:hover {
+    background: #128C7E; /* Hijau lebih gelap saat hover */
+}
+
+.wa-btn:disabled {
+    background: #ccc;
+    cursor: not-allowed;
+}
+
+/* Animasi Spinner Loading */
+.spinner {
+    width: 20px;
+    height: 20px;
+    border: 3px solid rgba(255,255,255,0.3);
+    border-radius: 50%;
+    border-top-color: #fff;
+    animation: spin 1s ease-in-out infinite;
+    display: none; /* Sembunyi secara default */
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
 
         .running-text-container { 
             position: fixed; 
@@ -197,7 +228,11 @@
             <p style="font-size: 12px;">Scan QRIS di atas untuk membayar</p>
         </div>
 
-        <button class="wa-btn" onclick="sendWA()">KONFIRMASI VIA WHATSAPP</button>
+       <button class="wa-btn" id="btn-submit" onclick="sendWA()">
+    <div id="spinner" class="spinner"></div>
+    <span id="btn-text">KONFIRMASI VIA WHATSAPP</span>
+</button>
+
     </div>
 </div>
 
@@ -259,26 +294,68 @@
         document.getElementById('info-dana').style.display = (val==='DANA') ? 'block' : 'none';
     }
 
-    function sendWA() {
-        const name = document.getElementById('cust-name').value;
-        const address = document.getElementById('cust-address').value;
-        const maps = document.getElementById('cust-coords').value;
-        const method = document.getElementById('pay-method').value || "Belum dipilih";
-        const total = document.getElementById('total-all').innerText;
+  async function sendWA() {
+    const name = document.getElementById('cust-name').value;
+    const address = document.getElementById('cust-address').value;
+    const maps = document.getElementById('cust-coords').value;
+    const method = document.getElementById('pay-method').value || "Belum dipilih";
+    const total = document.getElementById('total-all').innerText;
 
-        if(!name || !address) return alert("Mohon isi Nama dan Alamat!");
+    if (!name || !address) return alert("Mohon isi Nama dan Alamat!");
 
-        let itemText = "";
-        cartData.forEach((item, index) => { 
-            // Tambahkan keterangan warna (hex code) di pesan WA
-            const colorInfo = item.selectedColor ? ` | Warna: ${item.selectedColor}` : '';
-            itemText += `${index + 1}. ${item.name} (Size: ${item.selectedSize}${colorInfo})\n`; 
+    // --- AKTIFKAN LOADING ---
+    const btn = document.getElementById('btn-submit');
+    const btnText = document.getElementById('btn-text');
+    const spinner = document.getElementById('spinner');
+
+    btn.disabled = true; // Matikan tombol agar tidak double click
+    btnText.innerText = "MEMPROSES..."; // Ubah teks tombol
+    spinner.style.display = "block"; // Munculkan animasi putar
+
+    let itemText = "";
+    cartData.forEach((item, index) => {
+        const colorInfo = item.selectedColor ? ` | Warna: ${item.selectedColor}` : '';
+        itemText += `${index + 1}. ${item.name} (Size: ${item.selectedSize}${colorInfo})\n`;
+    });
+
+    const message = `*PESANAN BARU - N/A STORE*\n----------------------------\n*Nama:* ${name}\n*Alamat:* ${address}\n*Lokasi Maps:* ${maps}\n*Metode:* ${method}\n----------------------------\n*Barang:*\n${itemText}----------------------------\n*TOTAL: ${total}*`;
+
+    // --- KIRIM KE GOOGLE SHEETS ---
+    const urlSheet = "https://script.google.com/macros/s/AKfycbxvR74-OwV-G1-G5PhE56skKs5yfY865V00HvEzbTx6ps3Y9l1o6JAqfktgE-7j_-4w3A/exec";
+    
+    const dataKeSheet = {
+        nama: name,
+        metode: method,
+        jumlah: cartData.length,
+        total: total,
+        produk: itemText
+    };
+
+    try {
+        // Kita gunakan await agar loading terasa sebentar selagi data masuk ke Sheet
+        await fetch(urlSheet, {
+            method: 'POST',
+            mode: 'no-cors',
+            body: JSON.stringify(dataKeSheet)
         });
-
-        const message = `*PESANAN BARU - N/A STORE*\n----------------------------\n*Nama:* ${name}\n*Alamat:* ${address}\n*Lokasi Maps:* ${maps}\n*Metode:* ${method}\n----------------------------\n*Barang:*\n${itemText}----------------------------\n*TOTAL: ${total}*`;
-        
-        window.open(`https://wa.me/6287870574909?text=${encodeURIComponent(message)}`, '_blank');
+    } catch (err) {
+        console.error("Gagal kirim ke Sheets:", err);
     }
+
+    // --- SELESAI & ARAHKAN KE WA ---
+    localStorage.removeItem('cartData');
+    sessionStorage.setItem('orderPlaced', 'true');
+
+    // Buka WhatsApp
+    window.open(`https://wa.me/6287870574909?text=${encodeURIComponent(message)}`, '_blank');
+
+    // Kembali ke Beranda
+    setTimeout(() => {
+        location.href = 'index.html';
+    }, 1000);
+}
+
+
     window.onload = init;
 </script>
 </body>

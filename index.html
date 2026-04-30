@@ -253,7 +253,7 @@
 </div>
 
 <div class="running-text-container">
-    <div class="marquee">STREETWEAR STYLE AND VIETNAM LOKAL BRAND, GERATIS ONGKIR DI SELURUH KOTA SINGKAWANG.</div>
+    <div class="marquee">STREETWEAR STYLE DAN VIETNAM LOKAL BRAND, GERATIS ONGKIR DI SELURUH KOTA SINGKAWANG DAN PONTIANAK.</div>
 </div>
 
 <script>
@@ -402,6 +402,19 @@ function toggleCart() { document.getElementById('cart-panel').classList.toggle('
 window.onload = () => {
     filterProduct('all', document.querySelector('.cat-btn'));
     updateCartUI();
+
+    // --- LOGIKA NOTIFIKASI BARU ---
+    if (sessionStorage.getItem('orderPlaced') === 'true') {
+        // Tampilkan pesan
+        alert("Pesanan kamu sedang diproses! Terima kasih telah berbelanja di N/A STORE.");
+        
+        // Hapus tanda agar notifikasi tidak muncul terus menerus saat refresh
+        sessionStorage.removeItem('orderPlaced');
+        
+        // Pastikan UI keranjang direset (karena localStorage sudah dihapus di index2.html)
+        cart = [];
+        updateCartUI();
+    }
 };
 </script>
 </body>
