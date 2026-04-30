@@ -39,7 +39,7 @@
             max-width: 1200px; 
             margin: 0 auto; 
             display: flex; 
-            flex-wrap: wrap; /* Izinkan membungkus ke bawah */
+            flex-wrap: wrap; 
         }
 
         .left-col { 
@@ -62,12 +62,11 @@
             padding: 14px; 
             margin-bottom: 12px; 
             border: 1px solid #ddd; 
-            border-radius: 0; /* Desain kotak khas streetwear */
+            border-radius: 0; 
             font-size: 14px; 
             outline: none;
         }
         
-        /* Map Style */
         #map-picker { 
             height: 300px; 
             width: 100%; 
@@ -76,7 +75,6 @@
             z-index: 1; 
         }
         
-        /* Summary Items */
         .summary-item { 
             display: flex; 
             align-items: center; 
@@ -126,7 +124,6 @@
             letter-spacing: 1px;
         }
 
-        /* Running Text */
         .running-text-container { 
             position: fixed; 
             bottom: 0; 
@@ -143,25 +140,13 @@
         .marquee { display: inline-block; white-space: nowrap; padding-left: 100%; animation: marquee 20s linear infinite; }
         @keyframes marquee { 0% { transform: translate(0, 0); } 100% { transform: translate(-100%, 0); } }
 
-        /* --- RESPONSIVE MOBILE FIX --- */
         @media screen and (max-width: 768px) {
-            .checkout-container { 
-                flex-direction: column; /* Ubah jadi vertikal di HP */
-            }
-            .left-col { 
-                order: 2; /* Data pengiriman di bawah */
-                border-right: none; 
-                padding: 30px 20px;
-            }
-            .right-col { 
-                order: 1; /* Ringkasan pesanan di atas agar user cek barang dulu */
-                width: 100%;
-                padding: 30px 20px;
-                border-bottom: 2px solid #000;
-            }
+            .checkout-container { flex-direction: column; }
+            .left-col { order: 2; border-right: none; padding: 30px 20px; }
+            .right-col { order: 1; width: 100%; padding: 30px 20px; border-bottom: 2px solid #000; }
             h2 { font-size: 20px; }
             #map-picker { height: 250px; }
-            .nav-actions div { display: none; } /* Sembunyikan tulisan 'Checkout System' di HP agar tidak penuh */
+            .nav-actions div { display: none; }
         }
     </style>
 </head>
@@ -176,7 +161,6 @@
 </nav>
 
 <div class="checkout-container">
-    <!-- Kolom Ringkasan (Akan tampil di atas pada HP) -->
     <div class="right-col">
         <h2>Ringkasan Pesanan</h2>
         <div id="summary-list"></div>
@@ -186,7 +170,6 @@
         </div>
     </div>
 
-    <!-- Kolom Form (Akan tampil di bawah pada HP) -->
     <div class="left-col">
         <h2>Data Pengiriman</h2>
         <input type="text" id="cust-name" placeholder="Nama Lengkap">
@@ -242,10 +225,16 @@
         let total = 0;
         list.innerHTML = cartData.map(item => {
             total += item.price;
+            // Menampilkan indikator warna di ringkasan jika ada
+            const colorCircle = item.selectedColor ? `<div style="width:10px; height:10px; background:${item.selectedColor}; border-radius:50%; display:inline-block; border:1px solid #ddd; margin-left:5px;"></div>` : '';
+            
             return `
             <div class="summary-item">
                 <div class="img-wrapper"><img src="${item.images[0]}"><div class="badge">1</div></div>
-                <div style="flex:1"><b>${item.name}</b><br><small>Size: ${item.selectedSize}</small></div>
+                <div style="flex:1">
+                    <b>${item.name}</b><br>
+                    <small>Size: ${item.selectedSize} ${colorCircle}</small>
+                </div>
                 <div style="font-weight:bold;">Rp ${item.price.toLocaleString('id-ID')}</div>
             </div>`;
         }).join('');
@@ -281,7 +270,9 @@
 
         let itemText = "";
         cartData.forEach((item, index) => { 
-            itemText += `${index + 1}. ${item.name} (Size: ${item.selectedSize})\n`; 
+            // Tambahkan keterangan warna (hex code) di pesan WA
+            const colorInfo = item.selectedColor ? ` | Warna: ${item.selectedColor}` : '';
+            itemText += `${index + 1}. ${item.name} (Size: ${item.selectedSize}${colorInfo})\n`; 
         });
 
         const message = `*PESANAN BARU - N/A STORE*\n----------------------------\n*Nama:* ${name}\n*Alamat:* ${address}\n*Lokasi Maps:* ${maps}\n*Metode:* ${method}\n----------------------------\n*Barang:*\n${itemText}----------------------------\n*TOTAL: ${total}*`;
