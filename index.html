@@ -14,8 +14,33 @@
             background: #000; padding: 15px 5%; display: flex; justify-content: space-between; 
             align-items: center; position: sticky; top: 0; z-index: 1000; color: white;
         }
-        .logo-box img { height: 35px; }
-        .nav-links a { color: white; text-decoration: none; font-weight: bold; font-size: 12px; margin-left: 20px; text-transform: uppercase; letter-spacing: 1px; }
+        
+        /* Logo N/A di kiri */
+        .logo-box-left img { height: 35px; }
+        
+        /* BOX LOGO TENGAH - PERBAIKAN: AGAR TIDAK TERPOTONG/PENYOK */
+        .logo-box-center { 
+            position: absolute; 
+            left: 50%; 
+            transform: translateX(-50%); 
+            display: flex; 
+            align-items: center; 
+            gap: 12px; 
+        }
+        .logo-box-center img { 
+            height: 40px; 
+            width: 40px; 
+            object-fit: contain; /* Agar seluruh logo masuk ke dalam lingkaran tanpa terpotong */
+            border-radius: 50%; 
+            border: 1px solid #333;
+            background: #000; /* Menutup area kosong jika logo tidak kotak 1:1 */
+            padding: 3px; /* Memberi ruang agar logo tidak menyentuh garis tepi */
+        }
+
+        .nav-links { display: flex; align-items: center; }
+        .nav-links a { color: white; text-decoration: none; font-weight: bold; font-size: 12px; margin-left: 20px; text-transform: uppercase; letter-spacing: 1px; display: flex; align-items: center; }
+        
+        .cart-icon-nav { font-size: 18px; margin-right: 5px; }
 
         /* Hero Section */
         .hero { 
@@ -48,16 +73,13 @@
         .product-info h3 { font-size: 13px; text-transform: uppercase; margin: 0 0 8px; font-weight: bold; color: #000; }
         .product-info p { font-size: 13px; color: #000; margin: 0; font-weight: 500; }
 
-        /* Modal Styles */
+        /* Modal & Cart Styles */
         .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); display: none; z-index: 5000; justify-content: center; align-items: center; }
         .modal-content { background: #000; width: 100%; height: 100%; display: flex; position: relative; color: white; }
         .modal-left { flex: 1.2; background: #fff; display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden; }
         .modal-left img { max-width: 85%; max-height: 85vh; object-fit: contain; position: relative; z-index: 2; }
 
-        .slider-btn { 
-            position: absolute; top: 50%; transform: translateY(-50%); background: rgba(0,0,0,0.1); 
-            color: #000; border: 1px solid #000; font-size: 24px; padding: 15px 10px; cursor: pointer; z-index: 5;
-        }
+        .slider-btn { position: absolute; top: 50%; transform: translateY(-50%); background: rgba(0,0,0,0.1); color: #000; border: 1px solid #000; font-size: 24px; padding: 15px 10px; cursor: pointer; z-index: 5; }
         .prev { left: 20px; }
         .next { right: 20px; }
 
@@ -68,7 +90,6 @@
         .size-btn { flex: 1; padding: 15px; border: 1px solid #333; background: #000; color: white; cursor: pointer; font-weight: bold; }
         .size-btn.selected { background: #8B0000; border-color: #8B0000; }
 
-        /* Stepper +/- Style */
         .qty-box { margin-bottom: 30px; }
         .qty-label { font-size: 12px; font-weight: bold; margin-bottom: 10px; display: block; text-transform: uppercase; }
         .stepper { display: flex; align-items: center; background: #111; border: 1px solid #333; width: fit-content; }
@@ -77,80 +98,59 @@
 
         .btn-buy { background: #8B0000; color: white; border: none; padding: 20px; width: 100%; font-weight: bold; cursor: pointer; text-transform: uppercase; font-size: 15px; }
         
-        #cart-panel { position: fixed; top: 0; right: -400px; width: 380px; height: 100%; background: #fff; z-index: 6000; padding: 30px; box-shadow: -10px 0 30px rgba(0,0,0,0.2); }
+        #cart-panel { position: fixed; top: 0; right: -400px; width: 380px; height: 100%; background: #fff; z-index: 6000; padding: 30px; box-shadow: -10px 0 30px rgba(0,0,0,0.2); color: #000; }
         #cart-panel.active { right: 0; }
-        .cart-item { display: flex; gap: 15px; padding: 20px 0; border-bottom: 1px solid #eee; align-items: center; color: #000; }
-        .cart-item img { width: 70px; height: 70px; object-fit: contain; }
+        
+        .cart-item { display: flex; justify-content: space-between; align-items: center; padding: 15px 0; border-bottom: 1px solid #eee; }
+        .cart-item-left { display: flex; align-items: center; gap: 15px; }
+        .cart-item img { width: 60px; height: 60px; object-fit: contain; }
+        .cart-item-details b { font-size: 13px; text-transform: uppercase; display: block; }
+        .cart-item-details small { color: #666; }
+        .remove-btn { cursor: pointer; font-size: 18px; font-weight: bold; color: #999; padding-left: 10px; }
+        .remove-btn:hover { color: #000; }
 
         .running-text-container { position: fixed; bottom: 0; left: 0; width: 100%; background: #000; color: #fff; padding: 12px 0; z-index: 2000; font-weight: bold; font-size: 14px; overflow: hidden; }
         .marquee { display: inline-block; white-space: nowrap; padding-left: 100%; animation: marquee 25s linear infinite; }
         @keyframes marquee { 0% { transform: translate(0, 0); } 100% { transform: translate(-100%, 0); } }
-        /* --- TAMPILAN KHUSUS HP (RESPONSIVE) --- */
-@media screen and (max-width: 768px) {
-    /* 1. Mengubah Grid Produk menjadi 2 kolom di HP */
-    .grid {
-        grid-template-columns: repeat(2, 1fr) !important;
-        gap: 15px !important;
-        padding: 10px;
-    }
 
-    /* 2. Menyesuaikan Hero Section agar teks tidak terlalu besar */
-    .hero h1 {
-        font-size: 40px !important;
-    }
-
-    /* 3. Mengatur Modal/Quick View agar menumpuk ke bawah */
-    .modal-content {
-        flex-direction: column !important;
-        overflow-y: auto;
-    }
-
-    .modal-left, .modal-right {
-        flex: none !important;
-        width: 100% !important;
-    }
-
-    .modal-right {
-        padding: 20px !important;
-    }
-
-    /* 4. Menyesuaikan Ukuran Gambar di HP */
-    .img-container {
-        min-height: 200px !important;
-    }
-
-    .main-product-img {
-        max-height: 200px !important;
-    }
-
-    /* 5. Mengatur Navigasi agar lebih ringkas */
-    nav {
-        padding: 10px 3% !important;
-    }
-
-    .nav-links a {
-        font-size: 10px !important;
-        margin-left: 10px !important;
-    }
-
-    /* 6. Panel Keranjang agar tidak terlalu lebar */
-    #cart-panel {
-        width: 100% !important;
-        right: -100%;
-    }
-}
+        @media screen and (max-width: 768px) {
+            .grid { grid-template-columns: repeat(2, 1fr) !important; gap: 15px !important; padding: 10px; }
+            .hero h1 { font-size: 40px !important; }
+            .modal-content { flex-direction: column !important; overflow-y: auto; }
+            .modal-left, .modal-right { flex: none !important; width: 100% !important; }
+            .modal-right { padding: 20px !important; }
+            nav { padding: 10px 3% !important; height: auto; flex-wrap: wrap; }
+            
+            .logo-box-center { position: static; transform: none; order: 3; width: 100%; justify-content: center; margin-top: 10px; }
+            .logo-box-center img { height: 32px; width: 32px; }
+            
+            .nav-links a { font-size: 10px !important; margin-left: 10px !important; }
+            #cart-panel { width: 100% !important; right: -100%; }
+        }
     </style>
 </head>
 <body>
 
 <nav>
-    <div class="logo-box"><img src="na.png"></div>
+    <div class="logo-box-left"><img src="na.png"></div>
+
+    <div class="logo-box-center">
+        <img src="store.png" alt="Store">
+        <img src="hs.webp" alt="Hades">
+        <img src="devotus.jpg" alt="Devotus">
+        <img src="cc.jpg" alt="City Cycle">
+        <img src="nocturnal.webp" alt="Nocturnal">
+    </div>
+
     <div class="nav-links">
         <a href="index.html">STORE</a>
         <a href="index2.html">CHECKOUT</a>
-        <a href="javascript:void(0)" onclick="toggleCart()">CART (<span id="cart-count">0</span>)</a>
+        <a href="javascript:void(0)" onclick="toggleCart()">
+            <span class="cart-icon-nav">🛒</span> (<span id="cart-count">0</span>)
+        </a>
     </div>
 </nav>
+
 <div class="hero">
     <p>AUTHENTIC LOCAL BRAND</p>
     <h1>ALL STYLE</h1>
@@ -180,7 +180,6 @@
             <h2 id="modal-name">PRODUCT NAME</h2>
             <p id="modal-price">Rp 0</p>
             <div class="size-box" id="modal-sizes"></div>
-            
             <div class="qty-box">
                 <label class="qty-label">JUMLAH</label>
                 <div class="stepper">
@@ -189,19 +188,20 @@
                     <button onclick="changeQty(1)">+</button>
                 </div>
             </div>
-
             <button class="btn-buy" onclick="addFromModal()">TAMBAHKAN KE KERANJANG</button>
         </div>
     </div>
 </div>
 
 <div id="cart-panel">
-    <span onclick="toggleCart()" style="cursor:pointer; font-size:24px; color: #000;">&times;</span>
-    <h2 style="font-weight: 900; color: #000;">KERANJANG</h2>
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+        <h2 style="font-weight: 900; margin: 0;">KERANJANG</h2>
+        <span onclick="toggleCart()" style="cursor:pointer; font-size:30px;">&times;</span>
+    </div>
     <div id="cart-list" style="height: 70%; overflow-y: auto;"></div>
-    <div style="padding-top:20px; border-top: 2px solid #000;">
-        <h3 id="total-price" style="display:flex; justify-content:space-between; color:#000;">TOTAL: <span>Rp 0</span></h3>
-        <button onclick="location.href='index2.html'" style="width:100%; background:#000; color:#fff; padding:18px; border:none; cursor:pointer; font-weight:bold;">CHECKOUT</button>
+    <div style="padding-top:20px; border-top: 2px solid #000; position: absolute; bottom: 30px; width: calc(100% - 60px);">
+        <h3 id="total-price" style="display:flex; justify-content:space-between; margin-bottom: 20px;">TOTAL: <span>Rp 0</span></h3>
+        <button onclick="location.href='index2.html'" style="width:100%; background:#000; color:#fff; padding:18px; border:none; cursor:pointer; font-weight:bold; text-transform: uppercase;">Lanjut ke Checkout</button>
     </div>
 </div>
 
@@ -210,33 +210,27 @@
 </div>
 
 <script>
-// Database Produk dengan 4 slot gambar unik untuk slider
 const products = [
-    { id: 1, name: 'Polo Overthinking', brand: 'CITY CYCLE', price: 370000, sizes: ['M','L','XL'], 
-      images: ['city1.webp', 'image_396a26.png', 'city1.webp', 'image_396a26.png'] },
-    { id: 2, name: 'RAIDER KHAKI SHORTS', brand: 'HADES', price: 800000, sizes: ['S','M','L'], 
-      images: ['hadesraiderkhaki.jpg', 'hadesraiderkhaki3.jpg', 'hadesraiderkhaki2.jpg', 'image_396a26.png'] },
-    { id: 3, name: 'CARGO SHORT JEANS', brand: 'DEVOTUS', price: 430000, sizes: ['M','L','XL'], 
-      images: ['devcelana.png', 'image_396a26.png', 'devcelana.png', 'image_396a26.png'] },
-    { id: 4, name: 'Culture Zipper Hoodie', brand: 'NOCTURNAL', price: 348000, sizes: ['M','L','XL'], 
-      images: ['nocturnal1.webp', 'image_396a26.png', 'nocturnal1.webp', 'image_396a26.png'] },
-    // Produk lainnya juga menggunakan pola 4 slot gambar
-    { id: 5, name: 'HADES DARK TEE', brand: 'HADES', price: 250000, sizes: ['S','M','L'], images: ['image_396a26.png', 'image_396a26.png', 'image_396a26.png', 'image_396a26.png'] },
-    { id: 6, name: 'CITY RIDER JACKET', brand: 'CITY CYCLE', price: 550000, sizes: ['M','L','XL'], images: ['image_396a26.png', 'image_396a26.png', 'image_396a26.png', 'image_396a26.png'] },
-    { id: 7, name: 'DEVOTUS BASIC HOODIE', brand: 'DEVOTUS', price: 380000, sizes: ['L','XL'], images: ['image_396a26.png', 'image_396a26.png', 'image_396a26.png', 'image_396a26.png'] },
-    { id: 8, name: 'NOCTURNAL CARGO PANTS', brand: 'NOCTURNAL', price: 420000, sizes: ['M','L'], images: ['image_396a26.png', 'image_396a26.png', 'image_396a26.png', 'image_396a26.png'] },
-    { id: 9, name: 'HADES VINTAGE SHIRT', brand: 'HADES', price: 320000, sizes: ['M','L'], images: ['image_396a26.png', 'image_396a26.png', 'image_396a26.png', 'image_396a26.png'] },
-    { id: 10, name: 'CITY STREET SWEATER', brand: 'CITY CYCLE', price: 290000, sizes: ['S','M','L'], images: ['image_396a26.png', 'image_396a26.png', 'image_396a26.png', 'image_396a26.png'] },
-    { id: 11, name: 'DEVOTUS SLIM JEANS', brand: 'DEVOTUS', price: 460000, sizes: ['M','L','XL'], images: ['image_396a26.png', 'image_396a26.png', 'image_396a26.png', 'image_396a26.png'] },
-    { id: 12, name: 'NOCTURNAL GRAPHIC TEE', brand: 'NOCTURNAL', price: 210000, sizes: ['M','L','XL'], images: ['image_396a26.png', 'image_396a26.png', 'image_396a26.png', 'image_396a26.png'] },
-    { id: 13, name: 'HADES CHINO SHORTS', brand: 'HADES', price: 275000, sizes: ['S','M','L'], images: ['image_396a26.png', 'image_396a26.png', 'image_396a26.png', 'image_396a26.png'] },
-    { id: 14, name: 'CITY CYCLE CAP', brand: 'CITY CYCLE', price: 150000, sizes: ['All Size'], images: ['image_396a26.png', 'image_396a26.png', 'image_396a26.png', 'image_396a26.png'] },
-    { id: 15, name: 'DEVOTUS OVERSIZE TEE', brand: 'DEVOTUS', price: 235000, sizes: ['XL','XXL'], images: ['image_396a26.png', 'image_396a26.png', 'image_396a26.png', 'image_396a26.png'] },
-    { id: 16, name: 'NOCTURNAL COACH JACKET', brand: 'NOCTURNAL', price: 485000, sizes: ['M','L'], images: ['image_396a26.png', 'image_396a26.png', 'image_396a26.png', 'image_396a26.png'] },
-    { id: 17, name: 'HADES LEATHER BELT', brand: 'HADES', price: 120000, sizes: ['All Size'], images: ['image_396a26.png', 'image_396a26.png', 'image_396a26.png', 'image_396a26.png'] },
-    { id: 18, name: 'CITY RACING GLOVES', brand: 'CITY CYCLE', price: 195000, sizes: ['M','L'], images: ['image_396a26.png', 'image_396a26.png', 'image_396a26.png', 'image_396a26.png'] },
-    { id: 19, name: 'DEVOTUS ANKLE PANTS', brand: 'DEVOTUS', price: 310000, sizes: ['M','L','XL'], images: ['image_396a26.png', 'image_396a26.png', 'image_396a26.png', 'image_396a26.png'] },
-    { id: 20, name: 'NOCTURNAL MASK FACE', brand: 'NOCTURNAL', price: 85000, sizes: ['All Size'], images: ['image_396a26.png', 'image_396a26.png', 'image_396a26.png', 'image_396a26.png'] }
+    { id: 1, name: 'Polo Overthinking', brand: 'CITY CYCLE', price: 370000, sizes: ['M','L','XL'], images: ['city1.webp', 'sizepoloover.jpg'] },
+    { id: 2, name: 'RAIDER KHAKI SHORTS', brand: 'HADES', price: 800000, sizes: ['S','M','L'], images: ['hadesraiderkhaki.jpg', 'hadesraiderkhaki2.jpg','hadesraiderkhaki3.jpg','sizehsshorts.png'] },
+    { id: 3, name: 'CARGO SHORT JEANS', brand: 'DEVOTUS', price: 430000, sizes: ['M','L','XL'], images: ['devcelana.png','devcelana2.jpg','devcelana3.jpg','devcelana4.jpg'] },
+    { id: 4, name: 'Culture Zipper Hoodie', brand: 'NOCTURNAL', price: 348000, sizes: ['M','L','XL'], images: ['nocturnal1.webp', 'nocturnal2.webp','sizehoodienocturnal.jpg'] },
+    { id: 5, name: 'HADES ASTRAL DENIM PANTS', brand: 'HADES', price: 920000, sizes: ['S','M','L'], images: ['hadesastral denim.jpg','hadesastraldenim2.jpg','hadesastraldenim3.jpg','denimsize.jpg'] },
+    { id: 6, name: 'HADES ARTHROPOD WASH JEANS', brand: 'HADES', price: 860000, sizes: ['M','L','XL'], images: ['hadesarthropodw.jpg','hadesarthropodw2.jpg','hadesarthropodw3.jpg','sizehadesarthropodw.png'] },
+    { id: 7, name: 'DEVOTUS HOOIDE BIG TYPO', brand: 'DEVOTUS', price: 380000, sizes: ['L','XL'], images: ['devotushoodie.webp','devotushoodie2.jpg','devotushoodiesize.jpg'] },
+    { id: 8, name: 'NOCTURNAL CARGO PANTS', brand: 'NOCTURNAL', price: 420000, sizes: ['M','L'], images: ['image_3625e0.png'] },
+    { id: 9, name: 'HADES VINTAGE SHIRT', brand: 'HADES', price: 320000, sizes: ['M','L'], images: ['image_3625e0.png'] },
+    { id: 10, name: 'CITY STREET SWEATER', brand: 'CITY CYCLE', price: 290000, sizes: ['S','M','L'], images: ['image_3625e0.png'] },
+    { id: 11, name: 'DEVOTUS SLIM JEANS', brand: 'DEVOTUS', price: 460000, sizes: ['M','L','XL'], images: ['image_3625e0.png'] },
+    { id: 12, name: 'NOCTURNAL GRAPHIC TEE', brand: 'NOCTURNAL', price: 210000, sizes: ['M','L','XL'], images: ['image_3625e0.png'] },
+    { id: 13, name: 'HADES CHINO SHORTS', brand: 'HADES', price: 275000, sizes: ['S','M','L'], images: ['image_3625e0.png'] },
+    { id: 14, name: 'CITY CYCLE CAP', brand: 'CITY CYCLE', price: 150000, sizes: ['All Size'], images: ['image_3625e0.png'] },
+    { id: 15, name: 'DEVOTUS OVERSIZE TEE', brand: 'DEVOTUS', price: 235000, sizes: ['XL','XXL'], images: ['image_3625e0.png'] },
+    { id: 16, name: 'NOCTURNAL COACH JACKET', brand: 'NOCTURNAL', price: 485000, sizes: ['M','L'], images: ['image_3625e0.png'] },
+    { id: 17, name: 'HADES LEATHER BELT', brand: 'HADES', price: 120000, sizes: ['All Size'], images: ['image_3625e0.png'] },
+    { id: 18, name: 'CITY RACING GLOVES', brand: 'CITY CYCLE', price: 195000, sizes: ['M','L'], images: ['image_3625e0.png'] },
+    { id: 19, name: 'DEVOTUS ANKLE PANTS', brand: 'DEVOTUS', price: 310000, sizes: ['M','L','XL'], images: ['image_3625e0.png'] },
+    { id: 20, name: 'NOCTURNAL MASK FACE', brand: 'NOCTURNAL', price: 85000, sizes: ['All Size'], images: ['image_3625e0.png'] }
 ];
 
 let cart = JSON.parse(localStorage.getItem('cartData')) || [];
@@ -314,7 +308,17 @@ function updateCartUI() {
     let total = 0;
     list.innerHTML = cart.map((item, idx) => {
         total += item.price;
-        return `<div class="cart-item"><img src="${item.images[0]}"><div><b>${item.name}</b><br><small>SIZE: ${item.selectedSize}</small></div><div onclick="cart.splice(${idx},1); updateCartUI()" style="cursor:pointer">✕</div></div>`;
+        return `
+        <div class="cart-item">
+            <div class="cart-item-left">
+                <img src="${item.images[0]}">
+                <div class="cart-item-details">
+                    <b>${item.name}</b>
+                    <small>SIZE: ${item.selectedSize}</small>
+                </div>
+            </div>
+            <div class="remove-btn" onclick="cart.splice(${idx},1); updateCartUI()">✕</div>
+        </div>`;
     }).join('');
     document.getElementById('cart-count').innerText = cart.length;
     document.getElementById('total-price').innerHTML = `TOTAL: <span>Rp ${total.toLocaleString('id-ID')}</span>`;
