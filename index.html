@@ -59,7 +59,7 @@
         .color-preview { display: inline-block; width: 10px; height: 10px; border-radius: 50%; border: 1px solid #ddd; margin-left: 5px; }
         .remove-btn { cursor: pointer; font-weight: bold; color: #8B0000; }
         .running-text-container { position: fixed; bottom: 0; left: 0; width: 100%; background: #000; color: #fff; padding: 12px 0; z-index: 2000; overflow: hidden; }
-        .marquee { display: inline-block; white-space: nowrap; padding-left: 100%; animation: marquee 25s linear infinite; }
+        .marquee { display: inline-block; white-space: nowrap; padding-left: 100%; animation: marquee 25s linear infinite; font-family: 'Arial Black', 'Trebuchet MS', Arial, sans-serif; font-size: 15px; font-weight: 900; font-style: italic; letter-spacing: 1.4px; text-transform: uppercase; text-shadow: 2px 2px 0 rgba(255,255,255,0.12); }
         @keyframes marquee { 0% { transform: translate(0, 0); } 100% { transform: translate(-100%, 0); } }
         @media screen and (max-width: 768px) {
             nav { padding: 5px 2%; height: auto; flex-wrap: wrap; }
@@ -74,6 +74,7 @@
             .modal-left, .modal-right { width: 100% !important; flex: none !important; }
             .modal-right { padding: 30px; }
             #cart-panel { width: 100%; right: -100%; }
+            .marquee { font-size: 12px; letter-spacing: 1px; }
         }
     </style>
 </head>
@@ -83,7 +84,7 @@
     <div class="nav-links">
         <a href="index.html">STORE</a>
         <a href="index2.html">CHECKOUT</a>
-        <a href="javascript:void(0)" onclick="toggleCart"><span class="cart-icon-nav">🛒</span> (<span id="cart-count">0</span>)</a>
+        <a href="javascript:void(0)" onclick="toggleCart()"><span class="cart-icon-nav">🛒</span> (<span id="cart-count">0</span>)</a>
     </div>
     <div class="logo-box-right">
         <img src="store.png" alt="Store"><img src="hs.webp" alt="Hades"><img src="devotus.jpg" alt="Devotus"><img src="cc.jpg" alt="City Cycle"><img src="nocturnal.webp" alt="Nocturnal">
